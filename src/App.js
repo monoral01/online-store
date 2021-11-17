@@ -13,14 +13,15 @@ const StyledItem = styled(Paper)(({ theme }) => ({
 }));
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  // удаление из корзины
   const removeCartItem = (cartItemBegin, numberOfCartItems) => {
     const cartItemsCopy = [...cartItems];
     cartItemsCopy.splice(cartItemBegin, numberOfCartItems);
     setCartItems(cartItemsCopy);
   };
-  const createCartItem = (newCartItem) =>
-    setCartItems([...cartItems, { ...newCartItem, count: 1 }]);
+  const createCartItem = (newCartItem) => {
+    const newElement = { ...newCartItem, count: 1 };
+    setCartItems([...cartItems, newElement]);
+  };
   const increaseCartItem = (cartItemIndex) => {
     setCartItems(
       cartItems.map((el, index) => {
@@ -54,6 +55,7 @@ function App() {
             <Grid item xs={3}>
               <StyledItem>
                 <Item
+                  index={index}
                   key={index}
                   createCartItem={createCartItem}
                   increaseCartItem={increaseCartItem}

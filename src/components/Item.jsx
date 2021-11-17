@@ -3,7 +3,7 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Grid } from '@mui/material';
 import { blue } from '@mui/material/colors';
-export const Item = ({ createCartItem, item, increaseCartItem }) => {
+export const Item = ({ createCartItem, item }) => {
   const pushItemToCart = () => {
     createCartItem(item);
   };
