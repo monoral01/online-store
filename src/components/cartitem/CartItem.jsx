@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import cl from './CartItem.module.css';
 export function CartItem({
   index,
   removeCartItem,
@@ -8,34 +8,30 @@ export function CartItem({
   increaseCartItem,
   item,
 }) {
+  const setNewItemState = () => {
+    if (item.count === 1) {
+      return removeCartItem(index);
+    }
+    return decreaseCartItem(index);
+  };
   return (
-    <Grid container display={'flex'} p={1}>
+    <Grid container p={1}>
       <Grid item>
         {item.title} : {item.cost * item.count} ₽
-        <Box mt={1} mb={1}>
+        <div className={cl.cart_item}>
           <Grid container spacing={1}>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                if (item.count === 1) {
-                  return removeCartItem(index, 1);
-                }
-                return decreaseCartItem(index);
-              }}
-            >
+            <Button variant="outlined" onClick={() => setNewItemState()}>
               -
             </Button>
-            <Typography ml={2} mr={2}>
-              {item.count}
-            </Typography>
+            <Typography>{item.count}</Typography>
             <Button variant="outlined" onClick={() => increaseCartItem(index)}>
               +
             </Button>
-            <Button variant="text" onClick={() => removeCartItem(index, 1)}>
+            <Button variant="text" onClick={() => removeCartItem(index)}>
               Убрать
             </Button>
           </Grid>
-        </Box>
+        </div>
       </Grid>
     </Grid>
   );

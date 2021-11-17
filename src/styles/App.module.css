@@ -1,0 +1,14 @@
+.store {
+  display: flex;
+  flex-grow: 8px;
+}
+.catalog {
+  width: 75%;
+}
+.cart {
+  width: 25%;
+}
+.text {
+  text-align: center;
+  flex-grow: 1;
+}

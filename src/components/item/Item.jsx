@@ -1,14 +1,13 @@
 import React from 'react';
 import { Button, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import { Grid } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import cl from './Item.module.css';
 export const Item = ({ createCartItem, item }) => {
   const pushItemToCart = () => {
     createCartItem(item);
   };
   return (
-    <Box border={1} borderColor={blue} p={2}>
+    <div className={cl.item}>
       <Grid>
         <Typography>{item.title}</Typography>
         <Typography>Цена: {item.cost} ₽</Typography>
@@ -18,6 +17,6 @@ export const Item = ({ createCartItem, item }) => {
           Добавить в корзину
         </Button>
       </Grid>
-    </Box>
+    </div>
   );
 };

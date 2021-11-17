@@ -1,0 +1,13 @@
+.cart {
+  width: 100%;
+  padding: 16px;
+}
+.text {
+  text-align: center;
+  flex-grow: 1;
+}
+.total_cost {
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}

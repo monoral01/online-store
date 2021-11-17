@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
-import { Item } from './components/Item';
-import { Cart } from './components/Cart';
-import { items } from './data/items';
-import { Grid, Paper, AppBar, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import { styled } from '@mui/material/styles';
+import { Item } from './components/item/Item';
+import { Cart } from './components/cart/Cart';
+import { items } from './constants/items';
+import { Grid, AppBar, Typography } from '@mui/material';
+import cl from './styles/App.module.css';
 import Divider from '@mui/material/Divider';
-const StyledItem = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-}));
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  const removeCartItem = (cartItemBegin, numberOfCartItems) => {
+
+  const removeCartItem = (cartItemIndex) => {
     const cartItemsCopy = [...cartItems];
-    cartItemsCopy.splice(cartItemBegin, numberOfCartItems);
+    cartItemsCopy.splice(cartItemIndex, 1);
     setCartItems(cartItemsCopy);
   };
+
+  const clearCart = () => {
+    const cartItemsCopy = [...cartItems];
+    cartItemsCopy.splice(0, cartItems.length);
+    setCartItems(cartItemsCopy);
+  };
+
   const createCartItem = (newCartItem) => {
     const newElement = { ...newCartItem, count: 1 };
     setCartItems([...cartItems, newElement]);
   };
+
   const increaseCartItem = (cartItemIndex) => {
     setCartItems(
       cartItems.map((el, index) => {
@@ -32,6 +35,7 @@ function App() {
       })
     );
   };
+
   const decreaseCartItem = (cartItemIndex) => {
     setCartItems(
       cartItems.map((el, index) => {
@@ -42,45 +46,39 @@ function App() {
       })
     );
   };
+
   return (
-    <Box display={'flex'} flexGrow={1} spacing={2}>
-      <Box width={'75%'}>
+    <div className={cl.store}>
+      <div className={cl.catalog}>
         <AppBar position="static" p={2}>
-          <Typography variant="h6" textAlign={'center'} flexGrow={1}>
+          <Typography variant="h6" className={cl.text}>
             Каталог
           </Typography>
         </AppBar>
-        <Grid containter spacing={2} xs={12} mt={2}>
+        <Grid container spacing={2} xs={12} mt={2}>
           {items.map((item, index) => (
-            <Grid item xs={3}>
-              <StyledItem>
-                <Item
-                  index={index}
-                  key={index}
-                  createCartItem={createCartItem}
-                  increaseCartItem={increaseCartItem}
-                  item={item}
-                />
-              </StyledItem>
+            <Grid item xs={3} m={2}>
+              <Item key={index} createCartItem={createCartItem} item={item} />
             </Grid>
           ))}
         </Grid>
-      </Box>
-      <Divider mr={2} ml={2} orientation="vertical" flexItem></Divider>
-      <Box width={'25%'}>
+      </div>
+      <Divider mr={2} ml={2} orientation="vertical" flexItem />
+      <div className={cl.cart}>
         <AppBar position="static" p={2}>
-          <Typography variant="h6" textAlign={'center'} flexGrow={1}>
+          <Typography variant="h6" className={cl.text}>
             Корзина
           </Typography>
         </AppBar>
         <Cart
           removeCartItem={removeCartItem}
+          clearCart={clearCart}
           cartItems={cartItems}
           increaseCartItem={increaseCartItem}
           decreaseCartItem={decreaseCartItem}
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 

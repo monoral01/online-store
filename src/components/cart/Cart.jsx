@@ -1,9 +1,10 @@
 import React from 'react';
-import { CartItem } from './CartItem';
+import { CartItem } from '../cartitem/CartItem';
 import { Button, Grid, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import cl from './Cart.module.css';
 export const Cart = ({
   removeCartItem,
+  clearCart,
   cartItems,
   increaseCartItem,
   decreaseCartItem,
@@ -11,17 +12,21 @@ export const Cart = ({
   const getItemsTotalCost = () => {
     return cartItems.reduce((sum, el) => sum + el.count * el.cost, 0);
   };
+  const printPurchaseMessage = () => {
+    clearCart();
+    alert(`Вы совершили покупку на ${getItemsTotalCost()} ₽!`);
+  };
   if (cartItems.length === 0) {
     return (
-      <Box width={'100%'} mt={2}>
-        <Typography variant="h6" textAlign={'center'} flexGrow={1}>
+      <div className={cl.cart}>
+        <Typography variant="h6" className={cl.text}>
           Корзина пуста. Для покупки добавьте элементы из каталога.
         </Typography>
-      </Box>
+      </div>
     );
   }
   return (
-    <Box width={'100%'} ml={4}>
+    <div className={cl.cart}>
       <Grid container>
         <Grid item>
           {cartItems.map((item, index) => (
@@ -37,30 +42,21 @@ export const Cart = ({
         </Grid>
         <Grid container>
           <Grid item>
-            <Typography mt={1} mr={4}>
+            <Typography className={cl.total_cost}>
               Всего: {getItemsTotalCost()} ₽
             </Typography>
           </Grid>
           <Grid item>
-            <Button
-              onClick={() => {
-                removeCartItem(0, cartItems.length);
-                alert(`Вы совершили покупку на ${getItemsTotalCost()} ₽!`);
-              }}
-              variant="contained"
-            >
+            <Button onClick={() => printPurchaseMessage()} variant="contained">
               Купить
             </Button>
 
-            <Button
-              onClick={() => removeCartItem(0, cartItems.length)}
-              variant="text"
-            >
+            <Button onClick={() => clearCart()} variant="text">
               Очистить корзину
             </Button>
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
